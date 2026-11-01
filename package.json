@@ -1,0 +1,25 @@
+{
+  "name": "mundo_magico",
+  "version": "1.0.0",
+  "description": "Programa de consola en Node.js para crear mundos imaginarios usando APIs de texto e imágenes.",
+  "main": "index.js",
+  "keywords": [
+  "nodejs",
+  "javascript",
+  "mundos-imaginarios",
+  "ia",
+   "ai",
+  "api",
+  "generacion-de-imagenes",
+  "consola"
+  ],
+  "author": "Rudy",
+  "license": "ISC",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "object-hash": "^3.0.0"
+  }
+}
