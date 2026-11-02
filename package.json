@@ -4,14 +4,14 @@
   "description": "Programa de consola en Node.js para crear mundos imaginarios usando APIs de texto e imágenes.",
   "main": "index.js",
   "keywords": [
-  "nodejs",
-  "javascript",
-  "mundos-imaginarios",
-  "ia",
-   "ai",
-  "api",
-  "generacion-de-imagenes",
-  "consola"
+    "nodejs",
+    "javascript",
+    "mundos-imaginarios",
+    "ia",
+    "ai",
+    "api",
+    "generacion-de-imagenes",
+    "consola"
   ],
   "author": "Rudy",
   "license": "ISC",
@@ -20,6 +20,7 @@
     "start": "node src/index.js"
   },
   "dependencies": {
+    "fs": "^0.0.1-security",
     "object-hash": "^3.0.0"
   }
 }
