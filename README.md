@@ -96,3 +96,38 @@ Las solicitudes a Groq y NVIDIA consumen recursos de sus respectivas API. Para e
 
 ### 6. Si se utilizó inteligencia artificial, ¿qué fue lo más difícil de pedirle y qué parte se corrigió?
 Lo más difícil fue conseguir que la generación de imágenes funcionara correctamente y manejar los errores de conexión y respuesta. Se revisaron las validaciones y el manejo de errores para que el programa informe los problemas de manera clara.
+
+
+
+# Preguntas de Reflexión - Taller Mundos-IA
+
+Este documento contiene las respuestas a las preguntas de reflexión exigidas en el entregable del taller, estructuradas de manera concisa y clara.
+
+---
+
+### 1. ¿Por qué el id se calcula sin la fecha? ¿Qué pasaría si la incluyeras?
+El id se calcula sin la fecha para que, si se crea el mismo mundo otra vez, tenga el mismo id. Si incluyera la fecha, el id sería diferente cada vez, aunque los datos del mundo fueran iguales.
+
+---
+
+### 2. ¿Por qué se le pide al modelo de texto la descripción en inglés? Si puedes, prueba con una en español y compara las imágenes.
+Se le pide en inglés porque el modelo de imágenes puede entender mejor las descripciones y generar imágenes más parecidas a lo que se está pidiendo. Si se le pide en español, también puede funcionar, pero las imágenes pueden tener algunas diferencias en los detalles.
+
+---
+
+### 3. ¿Qué diferencia hay entre una respuesta JSON de texto y una respuesta con los bytes de una imagen? ¿Qué es base64?
+La respuesta JSON contiene información en formato de texto, como los datos de una imagen o su URL. En cambio, los bytes son los datos reales de la imagen, que se guardan en formato binario.Base64 es una forma de convertir esos datos binarios en texto para poder transmitirlos o guardarlos.
+---
+
+### 4. ¿Qué pasaría si guardas la imagen con 'utf-8'? ¿Por qué?
+No se guardaría correctamente porque `utf-8` es para texto, no para imágenes. La imagen necesita guardarse en formato binario (`binary`), para que no se dañen sus datos y se pueda abrir correctamente.
+
+---
+
+### 5. ¿Qué pasos consumen cuota gratuita y cómo evitaste repetirlos?
+Los que gastan la cuota son cuando le pido a Groq que genere el texto y a Cloudflare que genere la imagen. Para no gastar de más, guardo lo que ya se generó y así no tengo que volver a pedirlo a las API.
+
+---
+
+### 6. Si usaste IA: ¿qué fue lo más difícil de pedirle y qué parte tuviste que corregir tú?
+Lo más difícil fue que la IA me ayudara a cambiar de NVIDIA a Cloudflare Workers AI. Aunque en la guía del profe estaban los pasos, preferí pedirle ayuda a la IA para no equivocarme con las cabeceras, la URL y el token, pero me confundía más dándome estructuras de respuesta que no eran. Al final me tocó corregir a mí la forma de extraer el Base64 accediendo directo a `result.image`, armar bien la URL con el Account ID y acomodar el cuerpo de la petición para que funcionara como pedían.

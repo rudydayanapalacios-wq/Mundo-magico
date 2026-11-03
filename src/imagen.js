@@ -1,3 +1,4 @@
+
 const fs = require("fs");
 const path = require("path");
 
@@ -15,85 +16,70 @@ async function generarImagen(descripcion,id) {
             },
 
             body: JSON.stringify({
-                prompt: descripcionGuardada,
-                seed: 0,
+                prompt: descripcionGuardada
             }),
 
             signal: AbortSignal.timeout(60000)
         });
     } catch (error) {
         if (error.name === "TimeoutError" || error.name === "AbortError") {
-            throw new Error("La API de NVIDIA tardó demasiado en responder.");
+            throw new Error("La API de Cloudflare tardó demasiado en responder.");
         }
 
         if (error.name === "TypeError") {
-            throw new Error("No se pudo conectar con la API de NVIDIA.");
+            throw new Error("No se pudo conectar con la API de Cloudflare.");
         }
 
         throw error;
     }
-            
+
     if (!respuesta.ok) {
         if (respuesta.status === 401 || respuesta.status === 403) {
-            throw new Error("La clave de la API de NVIDIA no es válida o no tiene permisos.");
+            throw new Error("La clave de la API de Cloudflare no es válida o no tiene permisos.");
         }
 
         if (respuesta.status === 402 || respuesta.status === 429) {
-            throw new Error("Se alcanzó el límite o la cuota de la API de NVIDIA.");
+            throw new Error("Se alcanzó el límite o la cuota de la API de Cloudflare.");
         }
 
         if (respuesta.status === 404 || respuesta.status === 410) {
-            throw new Error("La URL o el recurso de la API de NVIDIA no está disponible.");
+            throw new Error("La URL o el modelo de Cloudflare no está disponible.");
         }
 
-        throw new Error(`Error de la API de NVIDIA. Código: ${respuesta.status}`);
+        throw new Error(`Error de la API de Cloudflare. Código: ${respuesta.status}`);
     }
 
-        
     let datos;
     try {
         datos = await respuesta.json();
     } catch (error) {
-        throw new Error("La respuesta de NVIDIA no tiene un formato JSON válido.");
+        throw new Error("La respuesta de Cloudflare no tiene un formato JSON válido.");
     }
 
     if (
-        !datos.artifacts ||
-        !datos.artifacts[0] ||
-        !datos.artifacts[0].base64
+        !datos.success ||
+        !datos.result ||
+        !datos.result.image
     ) {
-        throw new Error("NVIDIA no devolvió ninguna imagen.");
+        throw new Error("Cloudflare no devolvió ninguna imagen.");
     }
 
-    if (datos.finishReason !== "SUCCESS") {
-        throw new Error("NVIDIA no pudo completar la generación de la imagen.");
-    }
-
-    const imagenBase64 = datos.artifacts[0].base64;
+    const imagenBase64 = datos.result.image;
     const imagenBuffer = Buffer.from(imagenBase64, "base64");
 
     if (imagenBuffer.length === 0) {
         throw new Error("La imagen generada está vacía.");
     }
 
+    const carpeta = path.join(__dirname, "..", "imagenes");
+    fs.mkdirSync(carpeta, { recursive: true });
 
+    const ruta = path.join(carpeta, `mundo_${id}.jpg`);
+    fs.writeFileSync(ruta, imagenBuffer);
 
-        const carpeta = path.join(__dirname, "..", "imagenes");
-        fs.mkdirSync(carpeta, { recursive: true });
-
-        const ruta = path.join(carpeta, `mundo_${id}.jpg`);
-        fs.writeFileSync(ruta, imagenBuffer);
-
-         return ruta;
-
-
+    return ruta;
 }
 
-
-
-
-
-module.exports={
+module.exports = {
     generarImagen
 };
-       
