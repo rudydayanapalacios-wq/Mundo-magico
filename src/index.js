@@ -4,6 +4,7 @@ const colores = process.argv.slice(4);
 
 const { crearMundo, guardarMundo, leerMundo } = require("./mundo");
 const { describirMundo } = require("./texto");
+const { generarImagen } = require("./imagen")
 
 async function main() {
 
@@ -45,6 +46,10 @@ async function main() {
 
     const rutaDescripcion = await describirMundo(mundoLeido);
     console.log(`Descripción guardada en: ${rutaDescripcion}`);
+
+    console.log("Generando imagen, espera un momento...");
+    const rutaImagen = await generarImagen(rutaDescripcion, mundoLeido.id);
+    console.log(`Imagen guardada en: ${rutaImagen}`);
 }
 
 main();
