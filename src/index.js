@@ -19,7 +19,7 @@ async function main() {
             console.log('Ejemplo: npm start "un capibara montando un unicornio" "un lago de delfines" rosa azul blanco lila verde');
             process.exitCode = 1;
             return;
-}
+            }
 
         for (let i = 0; i < argumentos.length; i++) {
             if (argumentos[i].trim() === "") {
@@ -39,13 +39,13 @@ async function main() {
             }
         }
 
-const mundoCreado = crearMundo(argumentos);
+        const mundoCreado = crearMundo(argumentos);
 
-const ruta = guardarMundo(mundoCreado);
-console.log(`Mundo guardado en: ${ruta}`);
+        const ruta = guardarMundo(mundoCreado);
+        console.log(`Mundo guardado en: ${ruta}`);
 
-const mundoLeido = leerMundo(ruta);
-console.log("Mundo leído:", mundoLeido);
+        const mundoLeido = leerMundo(ruta);
+        console.log("Mundo leído:", mundoLeido);
 
         const rutaDescripcion = path.join(
             __dirname,
